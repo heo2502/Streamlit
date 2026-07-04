@@ -21,6 +21,11 @@ st.info(
 
 audio_value = st.audio_input("여기를 눌러 음성을 녹음하세요")
 
+# height = st.number_input('키(cm)', 100, 220)
+# weight = st.number_input('몸무게(kg)', 20, 150)
+# bmi = weight / ((height/100) ** 2)
+# st.write(round(bmi, 2))
+
 if audio_value is not None:
     st.subheader("1단계: 녹음된 음성")
     st.audio(audio_value)
