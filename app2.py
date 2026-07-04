@@ -43,9 +43,9 @@ def speak(text: str) -> BytesIO:
     return buf
 
 text = "마이크 버튼을 누르고 키와 몸무게를 말하면, BMI와 건강정보를 음성으로 알려드립니다."
-if st.button("🎵 음성 BMI 건강 도우미"):
+if st.button("🎵 음성 BMI 건강 도우미 클릭"):
     audio = speak(text)
-    st.audio(audio, format="audio/mp3")
+    st.audio(audio, format="audio/mp3", autoplay=True)
 
 # if st.button("🎵 음성 BMI 건강 도우미"):
 #     tts = gTTS(text=text, lang='ko')     # 한국어 설정
@@ -54,26 +54,27 @@ if st.button("🎵 음성 BMI 건강 도우미"):
 #     audio_bytes.seek(0)
 #     st.audio(audio_bytes, format='audio/mp3')   # 재생 플레이어 표시
 
-st.title("🎤 음성으로 숫자 입력하기")
+
 st.write("마이크 버튼을 누르고 키를 숫자를 말해보세요. 예: '삼십오' 또는 '35'")
 
 # 1단계: 음성 → 텍스트 (한국어 설정: language='ko')
-text = speech_to_text(
+height_text = speech_to_text(
     language='ko',              # 한국어 인식
     start_prompt="🎙️ 녹음 시작",
     stop_prompt="⏹️ 녹음 종료",
     just_once=True,             # 한 번 인식 후 초기화
     use_container_width=True,
-    key='stt'
+    key='stt1'
 )
 
 # 2단계: 텍스트 → 숫자 추출
-if text:
-    st.info(f"인식된 말: **{text}**")
-    numbers = re.findall(r'\d+\.?\d*', text)   # 아라비아 숫자 추출
+if height_text:
+    st.info(f"인식된 말: **{height_text}**")
+    numbers = re.findall(r'\d+\.?\d*', height_text)   # 아라비아 숫자 추출
     if numbers:
         height_value = float(numbers[0])
         st.success(f"✅ 입력된 숫자: **{height_value}**")
+        st.session_state.height = height_value
         #st.session_state['voice_number'] = height_value
     else:
         st.warning("⚠️ 숫자를 찾지 못했어요. '35'처럼 또박또박 말해보세요.")
@@ -85,32 +86,42 @@ if text:
 st.write("마이크 버튼을 누르고 몸무게를 숫자를 말해보세요. 예: '칠십오' 또는 '75'")
 
 # 1단계: 음성 → 텍스트 (한국어 설정: language='ko')
-text = speech_to_text(
+weight_text = speech_to_text(
     language='ko',              # 한국어 인식
     start_prompt="🎙️ 녹음 시작",
     stop_prompt="⏹️ 녹음 종료",
     just_once=True,             # 한 번 인식 후 초기화
     use_container_width=True,
-    key='stt'
+    key='stt2'
 )
 
 # 2단계: 텍스트 → 숫자 추출
-if text:
-    st.info(f"인식된 말: **{text}**")
-    numbers = re.findall(r'\d+\.?\d*', text)   # 아라비아 숫자 추출
+if weight_text:
+    st.info(f"인식된 말: **{weight_text}**")
+    numbers = re.findall(r'\d+\.?\d*', weight_text)   # 아라비아 숫자 추출
     if numbers:
         weight_value = float(numbers[0])
         st.success(f"✅ 입력된 숫자: **{weight_value}**")
+        st.session_state.weight = weight_value
         #st.session_state['voice_number'] = weight_value
     else:
         st.warning("⚠️ 숫자를 찾지 못했어요. '75'처럼 또박또박 말해보세요.")
 
 
 if st.button("🧮 BMI 계산하고 음성으로 듣기", use_container_width=True, type="primary"):
-    if height_value <= 0 or weight_value <= 0:
+    height = st.number_input(
+        "키 (cm)", min_value=0.0, max_value=250.0,
+        value=float(st.session_state.height or 0.0), step=0.1,
+    )
+    weight = st.number_input(
+        "몸무게 (kg)", min_value=0.0, max_value=300.0,
+        value=float(st.session_state.weight or 0.0), step=0.1
+    )
+
+    if height <= 0 or weight <= 0:
         st.warning("⚠️ 키와 몸무게를 먼저 입력해 주세요.")
     else:
-        bmi = weight_value / ((height_value / 100) ** 2)
+        bmi = weight / ((height / 100) ** 2)
         category, emoji, advice = classify_bmi(bmi)
  
         # 화면 표시
@@ -120,8 +131,8 @@ if st.button("🧮 BMI 계산하고 음성으로 듣기", use_container_width=Tr
 
 
         message = (
-            f"측정 결과를 알려드립니다. 키 {height_value:.0f} 센티미터, "
-            f"몸무게 {weight_value:.0f} 킬로그램으로, "
+            f"측정 결과를 알려드립니다. 키 {height:.0f} 센티미터, "
+            f"몸무게 {weight:.0f} 킬로그램으로, "
             f"비엠아이 수치는 {bmi:.1f} 입니다. {category}에 해당합니다. {advice}"
         )
         with st.spinner("음성을 생성하는 중..."):
