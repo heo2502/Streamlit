@@ -141,7 +141,7 @@ def _day1_chatbot():
         api_key = st.text_input(
             "Gemini API Key",
             type="password",
-            value="AIzaSyDTnhwV0b6nJDkRubLX_w11pbjt1p_HaO4",
+            value="",
             help="https://aistudio.google.com/apikey 에서 Google 계정으로 로그인 후 무료 발급. "
                  "키는 서버에 저장되지 않고 이 세션에서만 사용됩니다.",
         )
