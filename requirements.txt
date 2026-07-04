@@ -1,3 +1,5 @@
 streamlit
 SpeechRecognition
 gTTS
+pandas
+google-genai
