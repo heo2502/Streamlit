@@ -3,3 +3,5 @@ SpeechRecognition
 gTTS
 pandas
 google-genai
+pillow
+ultralytics

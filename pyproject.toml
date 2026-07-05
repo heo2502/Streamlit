@@ -13,4 +13,5 @@ dependencies = [
     "speechrecognition>=3.17.0",
     "streamlit>=1.44.1",
     "streamlit-mic-recorder>=0.0.8",
+    "ultralytics>=8.4.87",
 ]
