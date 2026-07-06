@@ -40,7 +40,7 @@ if selected_day == "Day 1 · 7월 6일 (월)":
     with tab_practice:
         st.header("Day 1 실습")
         st.write("여기에 Day 1 실습 내용을 작성하세요.")
-        st.info("예: Streamlit 개념 소개, 설치 방법, Hello World 앱 만들기")
+        st.info("1일차 실습내용")
  
     with tab_assignment:
         st.header("Day 1 과제")
