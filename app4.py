@@ -5,7 +5,11 @@ st.set_page_config(page_title="5일 강의 실습노트", page_icon="📅", layo
 # -----------------------------------------------------------------------
 # 1) 사이드바 - 날짜(Day) 목록을 라디오 버튼으로 보여주기
 # -----------------------------------------------------------------------
+<<<<<<< HEAD
 st.sidebar.title("📅5일 강의 일정")
+=======
+st.sidebar.title("📅 📆5일 강의 일정")
+>>>>>>> 05d047ef132a5f326493578375d1488fb1f66253
 st.sidebar.caption("날짜를 클릭하면 그날의 실습/과제 화면으로 이동합니다.")
  
 selected_day = st.sidebar.radio(
@@ -40,7 +44,7 @@ if selected_day == "Day 1 · 7월 6일 (월)":
     with tab_practice:
         st.header("Day 1 실습")
         st.write("여기에 Day 1 실습 내용을 작성하세요.")
-        st.info("예: Streamlit 개념 소개, 설치 방법, Hello World 앱 만들기")
+        st.info("1일차 실습내용")
  
     with tab_assignment:
         st.header("Day 1 과제")
