@@ -1,0 +1,44 @@
+#누비자 관련 패키지 설치
+uv add streamlit pandas folium streamlit-folium requests streamlit-js-eval openpyxl streamlit-autorefresh
+
+
+앱 등록 순서
+
+https://openapi.sk.com 접속 후 로그인
+화면 우측 상단의 "대시보드" 클릭
+왼쪽 상세 메뉴에서 "앱" 클릭 → "앱 등록" / "앱 생성" 버튼 클릭
+
+앱 이름은 자유롭게 (예: "누비자 경로안내")
+플랫폼 종류를 물으면 "Server(서버)" 또는 "Web" 선택 (Streamlit이 서버에서 API를 호출하는 구조이므로 Server가 적절)
+
+
+앱이 만들어지면, 그 앱 상세 화면에서 **"상품 이용 신청"**으로 들어가서 카테고리 중 모빌리티 > 길찾기(내비게이션) > "보행자 경로안내" 상품을 찾습니다.
+요금제에서 무료(Free) 요금제를 선택하고 "사용하기" 버튼으로 신청합니다.
+신청이 완료되면 (보통 즉시) 해당 앱 상세 화면에 appKey가 표시됩니다. 이 값을 복사하세요.
+
+
+
+#secrets.toml : powershell에서 파일 생성
+New-Item -ItemType Directory -Path .streamlit -Force
+@'
+DATA_GO_KR_SERVICE_KEY = "여기에_공공데이터포털_인증키_붙여넣기"
+TMAP_APP_KEY = "여기에_Tmap_appKey_붙여넣기"
+'@ | Out-File -FilePath .streamlit\secrets.toml -Encoding utf8
+
+
+
+#.gitignore : powershell에서 파일 생성
+@'
+# API 키 등 민감한 값 - 절대 git에 올리지 않는다
+.streamlit/secrets.toml
+.env
+
+# 파이썬/uv
+__pycache__/
+*.pyc
+.venv/
+.python-version
+
+# OS
+.DS_Store
+'@ | Out-File -FilePath .gitignore -Encoding utf8

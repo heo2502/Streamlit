@@ -1,0 +1,12 @@
+﻿# API 키 등 민감한 값 - 절대 git에 올리지 않는다
+.streamlit/secrets.toml
+.env
+
+# 파이썬/uv
+__pycache__/
+*.pyc
+.venv/
+.python-version
+
+# OS
+.DS_Store
